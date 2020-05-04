@@ -76,13 +76,42 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            // Make search case-insensitive
+            //if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
 
         return jobs;
     }
+
+    // create a findByValue method that will search for a string within each of the columns
+    public static ArrayList<HashMap<String, String>> findByValue (String value) {
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        // Loop through all rows
+        for (HashMap<String, String> row : allJobs) {
+            // For each row, loop through every column
+            for (String key : row.keySet()) {
+                String aValue = row.get(key);
+
+                // Make search case-insensitive
+                if (aValue.toLowerCase().contains(value.toLowerCase())) {
+                    jobs.add(row);
+                    // Break out of inner loop when a match is found
+                    break;
+                }
+
+            }
+        }
+
+        return jobs;
+    }
+
 
     /**
      * Read in data from a CSV file and store it in a list
